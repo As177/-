@@ -50,54 +50,43 @@
 	</div>
 
 <script type="text/javascript">	
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	width : 200,
-	height : 200
-});
+	var qrcode = new QRCode(document.getElementById("qrcode"), {
+		width : 200,
+		height : 200
+	});
 
-// document.getElementById('test').onchange=function(){
-//        console.log(this.options[this.options.selectedIndex].value)
-//    }
-
-function makeCode () {		
-	var elText = document.getElementById("text");
-	
-	if (!elText.value) {
-		elText.focus();
-		return;
-	}
-	
+	function makeCode () {		
+	var elText = document.getElementById("text");	
+		if (!elText.value) {
+			elText.focus();
+			return;
+		}	
 	qrcode.makeCode(elText.value);
 
 	var des=document.getElementById('doc');
-	if(des.value){
-		document.getElementById('describe').innerHTML=des.value;
-	} else{
-		document.getElementById('describe').innerHTML='这里是描述';
-	}		
-}
+		if(des.value){
+			document.getElementById('describe').innerHTML=des.value;
+		} else{
+			document.getElementById('describe').innerHTML='这里是描述';
+		}		
+	}
 
-$(function() {
-    $( "#slider-range-max" ).slider({
-      range: "max",
-      min: 50,
-      max: 200,
-      value: 200,
-      slide: function( event, ui ) {
-		$( "#amount" ).val( ui.value );
-		$('#qrcode').css('width',ui.value);
-        $('#qrcode').css('height',ui.value);
-		$('#qrcode img').css('width',ui.value);
-        $('#qrcode img').css('height',ui.value);
-      }
-    });
-    $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
-  });
-// $("#text").	on("keydown", function (e) {
-// 		if (e.keyCode == 13) {
-// 			makeCode();
-// 		}
-// 	});
+	$(function() {
+		$( "#slider-range-max" ).slider({
+		range: "max",
+		min: 50,
+		max: 200,
+		value: 200,
+		slide: function( event, ui ) {
+			$( "#amount" ).val( ui.value );
+			$('#qrcode').css('width',ui.value);
+			$('#qrcode').css('height',ui.value);
+			$('#qrcode img').css('width',ui.value);
+			$('#qrcode img').css('height',ui.value);
+		}
+		});
+		$( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+	});
 	$('button').on('click',function(){
 		$('#describe').css('display','block');		
 	})
@@ -110,8 +99,7 @@ $(function() {
 	function none(){
 		$('.tips').css('display','none');
 		$('.right').css('margin-left','270px')
-	}
-	
+	}	
 	$('#amount').on('click',function(){
 		$('#slider-range-max').removeAttr('style');
 		$('#slider-range-max').css('display','inline-block');
