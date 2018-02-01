@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+<head>
+<title>QRCode</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="qrcode.js"></script>
+<script type="text/javascript" src="jq.print.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+	<div><img src="banner.jpg" alt=""></div>
+	<div class='bg'>
+		<div class="container">
+			<div class='left'>
+				<p>二维码内容:</p>
+				<textarea class="form-control" name="" id="text" cols="30" rows="10" placeholder="请输入文字内容"></textarea><br>
+				<p>二维码描述(50字内):</p>
+				<textarea class="form-control" name="" id="doc" cols="30" rows="10" placeholder="请输入描述" title="请控制在50个字以内" onchange="this.value=this.value.substring(0, 50)"></textarea></span>
+				<div style="text-align:center;"><button class='btn btn-success' onclick="makeCode()">生成二维码</button></div>
+			</div>
+			<div class='right'>
+				<div id="righ">
+					<div id="qrcode"></div><br>
+					<div><p id="describe"></p></div>
+				</div>
+				<div class='size'>
+					<p>
+						<label for="amount">二维码大小：</label>
+						<input type="button" id="amount" style="border:0;width:35px;padding-left:5px;height:22px;background:transparent;outline:none;" >
+					</p>
+					<div id="slider-range-max" style="display:none;"></div>
+					<div>
+						<button class="btn btn-success btn-sm" id='button_print' onclick="printit()">打印此二维码</button> 
+					</div>				 
+				</div>
+			</div> 
+			<div class="tips">
+				<p>Tips:</p>
+				<p>左侧输入二维码内容</p>
+				<p>点击生成二维码</p>
+				<p>默认尺寸可在50*50像素-200*200像素之间选择，可在打印预览处进一步缩放.</p>
+			    <button class='btn btn-sm know' onclick="none()">我知道了</button>
+			</div>
+		</div>	
+	</div>
+
+<script type="text/javascript">	
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 200,
+	height : 200
+});
+
+// document.getElementById('test').onchange=function(){
+//        console.log(this.options[this.options.selectedIndex].value)
+//    }
+
+function makeCode () {		
+	var elText = document.getElementById("text");
+	
+	if (!elText.value) {
+		elText.focus();
+		return;
+	}
+	
+	qrcode.makeCode(elText.value);
+
+	var des=document.getElementById('doc');
+	if(des.value){
+		document.getElementById('describe').innerHTML=des.value;
+	} else{
+		document.getElementById('describe').innerHTML='这里是描述';
+	}		
+}
+
+$(function() {
+    $( "#slider-range-max" ).slider({
+      range: "max",
+      min: 50,
+      max: 200,
+      value: 200,
+      slide: function( event, ui ) {
+		$( "#amount" ).val( ui.value );
+		$('#qrcode').css('width',ui.value);
+        $('#qrcode').css('height',ui.value);
+		$('#qrcode img').css('width',ui.value);
+        $('#qrcode img').css('height',ui.value);
+      }
+    });
+    $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+  });
+// $("#text").	on("keydown", function (e) {
+// 		if (e.keyCode == 13) {
+// 			makeCode();
+// 		}
+// 	});
+	$('button').on('click',function(){
+		$('#describe').css('display','block');		
+	})
+	function printit(){  
+		$("#righ").print({iframe:true,prepend:'<br/>'});
+		 setTimeout(function(){
+			window.location.reload()
+		 },200);		
+	}  
+	function none(){
+		$('.tips').css('display','none');
+		$('.right').css('margin-left','270px')
+	}
+	
+	$('#amount').on('click',function(){
+		$('#slider-range-max').removeAttr('style');
+		$('#slider-range-max').css('display','inline-block');
+	})
+</script>
+</body>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{
+		font-family: '微软雅黑';
+	}
+	h3{
+		padding: 30px;
+		text-align: center;
+	}
+	.bg{
+		background:url(bg.jpg) no-repeat;
+		padding-top:40px;
+	}
+	.container{
+		height: 560px;
+	}
+	textarea {
+		resize : none;	
+		width:300px;
+		height:120px;
+	}
+	.btn{
+		margin-top: 30px;
+	}
+	.left{
+		float:left;
+	}
+	.right{
+		float: left;
+		background-color: #FFF;
+		width: 300px;
+		height: 400px;
+		margin-left: 50px;
+		margin-top:20px;
+		border: 1px solid #999;
+		border-radius: 6px 6px 6px 6px;
+	}
+	#qrcode{
+		margin:0 auto;
+		width:200px; 
+		height:200px; 
+		margin-top:40px;
+		max-width:200px;
+		max-height:200px;
+	}
+	#describe{
+		display: none;
+		text-align: center;
+		color: #999;
+		margin: 0 auto;
+		width: 230px;
+		font-size: 14px;
+		word-break: break-all;
+	}
+	#righ{
+		height: 285px;
+	}
+	.right img{
+		max-width: 200px;
+		max-height: 200px;
+		margin: auto;
+		vertical-align: middle;
+	}
+	.size{
+		margin-top: 85px;
+		text-align: center;
+	}
+	.btn-sm{
+		margin-top:10px;
+	}
+	#slider-range-max{
+		width: 200px;
+		margin: auto;
+		margin-top: -20px;
+	}
+	.tips{
+		width: 242px;
+		margin-left: 55px;
+		float: left;
+		background-color: #b5e7d2;
+		padding: 20px;
+		margin-top: 35px;
+		border-radius: 9px 9px 9px 9px;
+	}
+	.know{
+		float: right;
+		background-color: #97ada4;
+	}
+</style>

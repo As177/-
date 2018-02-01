@@ -1,0 +1,13 @@
+{
+  "name": "qrcode",
+  "version": "0.1.0",
+  "title":"二维码生成器",
+  "main": "index.html",
+  "icon": "qrcode.ico",
+  "window":{
+    "icon": "qrcode.png",
+    "width":1090,
+    "height":789,
+    "resizable":false
+  }
+}
