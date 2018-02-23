@@ -1,5 +1,5 @@
-{
-  "name": "qrcode",
+﻿{
+  "name": "barcode",
   "version": "0.1.0",
   "title":"二维码生成器",
   "main": "index.html",
@@ -7,7 +7,7 @@
   "window":{
     "icon": "qrcode.png",
     "width":1090,
-    "height":789,
+    "height":805,
     "resizable":false
   }
 }

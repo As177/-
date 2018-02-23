@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
 <title>QRCode</title>
@@ -6,51 +6,62 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
-<script type="text/javascript" src="jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="qrcode.js"></script>
 <script type="text/javascript" src="jq.print.js"></script>
-<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 	<div><img src="banner.jpg" alt=""></div>
+	<div class="ull">
+		<ul class='nav container' role='tablist'>
+			<li class='nav-item'>
+				<a href='index.html' class='nav-link'>QRCode</a>
+			</li>
+			<li class='nav-item'>
+				<a href='dmcode.html' class='nav-link '>Data Matrix</a>
+			</li>
+		</ul>
+	</div>
 	<div class='bg'>
-		<div class="container">
-			<div class='left'>
-				<p>二维码内容:</p>
-				<textarea class="form-control" name="" id="text" cols="30" rows="10" placeholder="请输入文字内容"></textarea><br>
-				<p>二维码描述(50字内):</p>
-				<textarea class="form-control" name="" id="doc" cols="30" rows="10" placeholder="请输入描述" title="请控制在50个字以内" onchange="this.value=this.value.substring(0, 50)"></textarea></span>
-				<div style="text-align:center;"><button class='btn btn-success' onclick="makeCode()">生成二维码</button></div>
-			</div>
-			<div class='right'>
-				<div id="righ">
-					<div id="qrcode"></div><br>
-					<div><p id="describe"></p></div>
+			<div class="container word">
+					<div class='left'>
+						<p>二维码内容:</p>
+						<textarea class="form-control" name="" id="text" cols="30" rows="10" placeholder="请输入文字内容"></textarea><br>
+						<p>二维码描述(50字内):</p>
+						<textarea class="form-control" name="" id="doc" cols="30" rows="10" placeholder="请输入描述" title="请控制在50个字以内" onchange="this.value=this.value.substring(0, 50)"></textarea></span>
+						<div style="text-align:center;"><button class='btn btn-success' onclick="makeCode()">生成二维码</button></div>
+					</div>
+					<div class='right'>
+						<div id="righ">
+							<div id="qrcode"></div><br>
+							<div><p id="describe"></p></div>
+						</div>
+						<div class='size'>
+							<p>
+								<label for="amount">二维码大小：</label>
+								<input type="button" id="amount" style="border:0;width:40px;height:22px;outline:none;" >
+							</p>
+							<div id="slider-range-max" style="display:none;"></div>
+							<div>
+								<button class="btn btn-success btn-sm" id='button_print' onclick="printit()">打印此二维码</button> 
+							</div>				 
+						</div>
+					</div> 
+					<div class="tips">
+						<p>Tips:</p>
+						<p>左侧输入二维码内容、描述，点击“生成二维码”按钮。</p>
+						<p>如内容为网址，则在前面加上"http://"。</p>
+						<p>二维码尺寸可在50*50像素-200*200像素之间选择(点击数字出现进度条手动拖动)，尺寸若不满足，在打印预览处调整缩放比例进行打印。</p>
+					</div>
 				</div>
-				<div class='size'>
-					<p>
-						<label for="amount">二维码大小：</label>
-						<input type="button" id="amount" style="border:0;width:40px;height:22px;outline:none;" >
-					</p>
-					<div id="slider-range-max" style="display:none;"></div>
-					<div>
-						<button class="btn btn-success btn-sm" id='button_print' onclick="printit()">打印此二维码</button> 
-					</div>				 
-				</div>
-			</div> 
-			<div class="tips">
-				<p>Tips:</p>
-				<p>左侧输入二维码内容</p>
-				<p>点击生成二维码</p>
-				<p>请在网址前,加"http://"</p>
-				<p>默认尺寸可在50*50像素-200*200像素之间选择(点击数字)，可在打印预览处进一步缩放.</p>
-			    <button class='btn btn-sm know' onclick="none()">我知道了</button>
 			</div>
-		</div>	
 	</div>
 
 <script type="text/javascript">	
+
 	var qrcode = new QRCode(document.getElementById("qrcode"), {
 		width : 200,
 		height : 200
@@ -97,14 +108,10 @@
 			window.location.reload()
 		 },200);		
 	}  
-	function none(){
-		$('.tips').css('display','none');
-		$('.right').css('margin-left','270px')
-	}	
 	$('#amount').on('click',function(){
 		$('#slider-range-max').removeAttr('style');
 		$('#slider-range-max').css('display','inline-block');
-	})
+	});
 </script>
 </body>
 <style>
@@ -121,9 +128,9 @@
 	}
 	.bg{
 		background:url(bg.jpg) no-repeat;
-		padding-top:40px;
+		padding-top:15px;
 	}
-	.container{
+	.word{
 		height: 560px;
 	}
 	textarea {
@@ -144,8 +151,14 @@
 		height: 400px;
 		margin-left: 50px;
 		margin-top:20px;
-		border: 1px solid #999;
 		border-radius: 6px 6px 6px 6px;
+	}
+	.ull{
+		background-color: #999;
+		font-size: 17px;    
+	}
+	ul a{
+		color: rgb(18, 95, 238);
 	}
 	#qrcode{
 		margin:0 auto;
@@ -177,6 +190,10 @@
 		margin-top: 85px;
 		text-align: center;
 	}
+	.dm-size{
+		margin-top: 173px;
+		text-align: center;
+	}
 	.btn-sm{
 		margin-top:10px;
 	}
@@ -191,11 +208,7 @@
 		float: left;
 		background-color: #b5e7d2;
 		padding: 20px;
-		margin-top: 35px;
+		margin-top: 20px;
 		border-radius: 9px 9px 9px 9px;
-	}
-	.know{
-		float: right;
-		background-color: #97ada4;
 	}
 </style>
